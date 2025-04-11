@@ -1,6 +1,14 @@
 "use client";
 
-import { Caraousel, Footer, Navbar, Card, Option } from "@/components/main";
+import {
+  Caraousel,
+  Footer,
+  Navbar,
+  Card,
+  Option,
+  RentLevel,
+  RentContract,
+} from "@/components/main";
 
 export default function Home() {
   return (
@@ -11,6 +19,8 @@ export default function Home() {
         <Caraousel />
         <Card />
         <Footer />
+        <RentLevel />
+        <RentContract />
       </div>
     </div>
   );
