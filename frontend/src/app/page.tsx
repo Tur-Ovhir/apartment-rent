@@ -8,6 +8,7 @@ import {
   Option,
   RentLevel,
   RentContract,
+  Map,
 } from "@/components/main";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
         <Footer />
         <RentLevel />
         <RentContract />
+        <Map />
       </div>
     </div>
   );

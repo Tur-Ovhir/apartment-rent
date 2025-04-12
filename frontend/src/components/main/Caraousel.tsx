@@ -1,16 +1,13 @@
 "use client";
-import Image from "next/image";
+
 export const Caraousel = () => {
   return (
     <div>
-      <div className="w-full h-[452px] border bg-amber-100">
-        image
-        {/* <Image
-          className="object-contain"
-          src="https://res.cloudinary.com/dykm0aphm/image/upload/v1744267088/apartmentttttt_mobjae.jpg"
-          alt="image"
-          fill
-        /> */}
+      <div className="w-full h-[452px] border bg-amber-100 items-center justify-center flex  ">
+        <div className="flex flex-col  items-center">
+          <h1 className="text-2xl font-bold">Төгс орон сууцаа олоорой.</h1>
+          <h5> Таны хэрэгцээнд нийцсэн орон сууцыг олоход бид тусалъя.</h5>
+        </div>
       </div>
     </div>
   );

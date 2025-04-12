@@ -30,16 +30,6 @@ export const RentContract = () => {
         <Input placeholder="Барьцаа мөнгөний хэмжээ" />
       </div>
 
-      <div className="space-y-2">
-        <Label>Барьцаа мөнгөний хэмжээ</Label>
-        <Input placeholder="Барьцаа мөнгөний хэмжээ" />
-      </div>
-
-      <div className="space-y-2">
-        <Label>Барьцаа мөнгөний хэмжээ</Label>
-        <Input placeholder="Барьцаа мөнгөний хэмжээ" />
-      </div>
-
       <div className="space-y-4 pt-4">
         <div className="flex items-center space-x-2">
           <Checkbox id="agree-terms" />
