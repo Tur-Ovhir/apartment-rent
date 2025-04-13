@@ -6,3 +6,7 @@ export * from "@/components/main/Option";
 export * from "@/components/main/RentLevel";
 export * from "@/components/main/RentContract";
 export * from "@/components/main/Map";
+export * from "@/components/main/CrContract";
+export * from "@/components/main/ImageUpload";
+export * from "@/components/main/Feature";
+export * from "@/components/main/MapNotif";

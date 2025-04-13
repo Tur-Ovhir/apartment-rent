@@ -9,6 +9,9 @@ import {
   RentLevel,
   RentContract,
   Map,
+  ImageUpload,
+  Feature,
+  MapNotit,
 } from "@/components/main";
 
 export default function Home() {
@@ -23,6 +26,15 @@ export default function Home() {
         <RentLevel />
         <RentContract />
         <Map />
+        <div className="mt-10 border">
+          <ImageUpload />
+        </div>
+        <div>
+          <Feature />
+        </div>
+        <div>
+          <MapNotit />
+        </div>
       </div>
     </div>
   );
