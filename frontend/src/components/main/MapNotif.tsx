@@ -10,7 +10,7 @@ import Image from "next/image";
 
 export const MapNotit = () => {
   return (
-    <div className="space-y-2 w-full max-w-[900px] p-10">
+    <div className="space-y-2 w-[900px] p-10 border rounded-xl">
       <h2 className="text-xl font-semibold mb-2">Байршлын мэдээлэл</h2>
 
       <div className="flex gap-4 mb-4">

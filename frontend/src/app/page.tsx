@@ -12,6 +12,10 @@ import {
   ImageUpload,
   Feature,
   MapNotit,
+  Information,
+  ApartmentCategory,
+  GeneralInfo,
+  ImageCarousel,
 } from "@/components/main";
 
 export default function Home() {
@@ -34,6 +38,18 @@ export default function Home() {
         </div>
         <div>
           <MapNotit />
+        </div>
+        <div>
+          <Information />
+        </div>
+        <div>
+          <ApartmentCategory />
+        </div>
+        <div className="mt-10">
+          <GeneralInfo />
+        </div>
+        <div>
+          <ImageCarousel />
         </div>
       </div>
     </div>

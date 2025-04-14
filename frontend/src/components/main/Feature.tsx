@@ -56,7 +56,7 @@ export const Feature = () => {
   };
 
   const renderCheckboxGrid = (items: string[]) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-[900px] justify-center">
       {items.map((feature) => (
         <Label key={feature} className="flex items-center space-x-2">
           <Checkbox
@@ -68,7 +68,6 @@ export const Feature = () => {
       ))}
     </div>
   );
-
   return (
     <div className="p-4 space-y-6 flex flex-col gap-4">
       <div>

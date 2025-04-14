@@ -10,3 +10,7 @@ export * from "@/components/main/CrContract";
 export * from "@/components/main/ImageUpload";
 export * from "@/components/main/Feature";
 export * from "@/components/main/MapNotif";
+export * from "@/components/main/Information";
+export * from "@/components/main/ApartmentCategoty";
+export * from "@/components/main/GeneralInfo";
+export * from "@/components/main/ImageCarousel";

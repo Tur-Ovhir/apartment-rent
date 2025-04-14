@@ -3,6 +3,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
+import { Input } from "../ui/input";
+
 export const ImageUpload = () => {
   const [images, setImages] = useState<File[]>([]);
 
@@ -13,16 +15,20 @@ export const ImageUpload = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Зураг нийтлэх</h2>
-      <div className="text-center mb-4">
-        <div className="text-gray-600 mb-2 flex flex-col items-center justify-center gap-2">
-          <GrGallery className="w-5 h-5" />
-          Та зар сурталчилгаандаа 30 зураг нэмэх боломжтой
+    <div className="w-[900px] min-h-[377px] mx-auto p-6 rounded-2xl border border-gray-200 shadow-md bg-white space-y-6">
+      <h2 className="text-2xl font-semibold text-gray-800">Зураг нийтлэх</h2>
+
+      <div className="text-center space-y-3">
+        <div className="flex flex-col items-center justify-center text-gray-600 gap-1">
+          <GrGallery className="w-6 h-6" />
+          <p>
+            Та зар сурталчилгаандаа <strong>30 зураг</strong> нэмэх боломжтой
+          </p>
         </div>
-        <label className="inline-block px-4 py-2 bg-red-600 text-white rounded cursor-pointer hover:bg-red-700">
-          Компьютерээс татаж авах
-          <input
+
+        <label className="inline-block px-5 py-2 bg-red-600 text-white rounded-md cursor-pointer hover:bg-red-700 transition">
+          Компьютерээс зураг сонгох
+          <Input
             type="file"
             accept="image/*"
             multiple
@@ -32,29 +38,38 @@ export const ImageUpload = () => {
         </label>
       </div>
 
-      <div className="border-2 border-purple-500 p-4 bg-gray-100 text-center">
+      <div className="border-2 border-dashed border-purple-400 bg-gray-50 p-6 rounded-md text-center">
         {images.length < 30 ? (
           <>
-            <div className="text-red-600 text-3xl mb-2">+</div>
+            <div className="text-red-600 text-4xl font-bold mb-2">+</div>
             <p className="text-gray-600">
-              Та зар сурталчилгаандаа 30 зураг нэмэх боломжтой
+              Та зар сурталчилгаандаа <strong>30 зураг</strong> нэмэх боломжтой
             </p>
           </>
         ) : (
-          <p className="text-gray-600">Хамгийн ихдээ 30 зураг байж болно</p>
+          <p className="text-gray-600">
+            Хамгийн ихдээ <strong>30 зураг</strong> байж болно
+          </p>
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-4">
-        {images.map((image, index) => (
-          <Image
-            key={index}
-            src={URL.createObjectURL(image)}
-            alt={`upload-${index}`}
-            className="w-full h-32 object-cover rounded shadow"
-          />
-        ))}
-      </div>
+      {images.length > 0 && (
+        <div className="grid grid-cols-3 gap-4">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className="relative w-full h-32 overflow-hidden rounded shadow"
+            >
+              <Image
+                src={URL.createObjectURL(image)}
+                alt={`upload-${index}`}
+                fill
+                className="object-cover rounded"
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
