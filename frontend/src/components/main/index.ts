@@ -14,3 +14,5 @@ export * from "@/components/main/Information";
 export * from "@/components/main/ApartmentCategoty";
 export * from "@/components/main/GeneralInfo";
 export * from "@/components/main/ImageCarousel";
+export * from "@/components/main/FeatureCard";
+

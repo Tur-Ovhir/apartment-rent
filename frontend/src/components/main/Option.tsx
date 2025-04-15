@@ -10,7 +10,7 @@ import { FaSearch } from "react-icons/fa";
 import { Input } from "../ui/input";
 export const Option = () => {
   return (
-    <div className="flex flex-row justify-between p-5 border  border-black">
+    <div className="flex flex-row justify-between p-5 border  rounded-xl">
       <div>
         <Select>
           <SelectTrigger className="w-[135px]">

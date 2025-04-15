@@ -19,7 +19,6 @@ export default function RentLevel1Page() {
       <div className="flex justify-center">
         <MapNotit />
       </div>
-
       <ImageUpload />
       <div className="flex justify-center">
         <Feature />
