@@ -42,7 +42,7 @@ export default function LoginPage() {
         </div>
         <Link href="/Home">
         <Button className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3">
-          Нэвтрэх
+          нэвтрэх
         </Button>
         </Link>
         <div className="flex items-center justify-between mb-4">
