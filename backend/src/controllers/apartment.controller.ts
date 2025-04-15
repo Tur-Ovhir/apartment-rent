@@ -1,8 +1,31 @@
 import { RequestHandler, Response } from "express";
 import db from "../database";
-import { apartments } from "../database/schema";
-import { and, eq, or, like, gte, lte, count } from "drizzle-orm";
+import { apartments, apartmentImages } from "../database/schema";
+import { and, eq, or, like, gte, lte, inArray, count } from "drizzle-orm";
 import { CustomRequest } from "../utils/customHandler";
+
+interface ApartmentCreateData {
+  title: string;
+  price: number;
+  rooms: number;
+  bathrooms: number;
+  area: number;
+  builtYear: number;
+  floor: number;
+  isFurnished: boolean;
+  facing?: string;
+  description?: string;
+  location: string;
+  latitude: string;
+  longitude: string;
+  interiorCategory?: string;
+  otherCategory?: string;
+  images?: string[];
+}
+
+interface ApartmentUpdateData extends Partial<ApartmentCreateData> {
+  images?: string[];
+}
 
 export const createApartment: RequestHandler = async (
   req: CustomRequest,
@@ -30,9 +53,10 @@ export const createApartment: RequestHandler = async (
       longitude,
       interiorCategory,
       otherCategory,
-    } = req.body;
+      images,
+    } = req.body as ApartmentCreateData;
 
-    // Basic validation
+    // Validation
     if (
       !title ||
       !price ||
@@ -47,34 +71,58 @@ export const createApartment: RequestHandler = async (
       return;
     }
 
-    const [newApartment] = await db
-      .insert(apartments)
-      .values({
-        title,
-        price,
-        rooms,
-        bathrooms,
-        area,
-        builtYear,
-        floor,
-        isFurnished: isFurnished || false,
-        facing,
-        description,
-        location,
-        latitude,
-        longitude,
-        interiorCategory,
-        otherCategory,
-        ownerId: req.user.userId,
-      })
-      .returning();
+    if (price <= 0 || rooms <= 0 || bathrooms <= 0 || area <= 0) {
+      res.status(400).json({ message: "Numeric values must be positive" });
+      return;
+    }
+
+    // Create apartment transaction
+    const [newApartment] = await db.transaction(async (tx) => {
+      const [apartment] = await tx
+        .insert(apartments)
+        .values({
+          title,
+          price,
+          rooms,
+          bathrooms,
+          area,
+          builtYear,
+          floor,
+          isFurnished: isFurnished || false,
+          facing,
+          description,
+          location,
+          latitude,
+          longitude,
+          interiorCategory,
+          otherCategory,
+          ownerId: req.user!.userId,
+        })
+        .returning();
+
+      // Add images if provided
+      if (images && images.length > 0) {
+        await tx.insert(apartmentImages).values(
+          images.map((imageUrl) => ({
+            apartmentId: apartment.id,
+            imageUrl,
+          }))
+        );
+      }
+
+      return [apartment];
+    });
+
+    // Get the apartment with images
+    const apartmentWithImages = await getApartmentWithImages(newApartment.id);
 
     res.status(201).json({
       message: "Apartment created successfully",
-      apartment: newApartment,
+      apartment: apartmentWithImages,
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error creating apartment:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -98,8 +146,8 @@ export const getApartments: RequestHandler = async (req, res) => {
 
     const offset = (Number(page) - 1) * Number(limit);
 
-    // Build the where clause dynamically based on provided filters
-    const whereClause = and(
+    // Build filter conditions
+    const conditions = [
       minPrice ? gte(apartments.price, Number(minPrice)) : undefined,
       maxPrice ? lte(apartments.price, Number(maxPrice)) : undefined,
       minRooms ? gte(apartments.rooms, Number(minRooms)) : undefined,
@@ -122,24 +170,44 @@ export const getApartments: RequestHandler = async (req, res) => {
             like(apartments.location, `%${search}%`),
             like(apartments.description, `%${search}%`)
           )
-        : undefined
-    );
+        : undefined,
+    ].filter(Boolean);
 
-    const allApartments = await db
+    // Get apartments
+    const apartmentsList = await db
       .select()
       .from(apartments)
-      .where(whereClause)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
       .limit(Number(limit))
       .offset(offset);
 
+    // Get count
     const totalCount = await db
       .select({ count: count() })
       .from(apartments)
-      .where(whereClause)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
       .then((res) => res[0]?.count || 0);
 
+    // Get images for each apartment
+    const apartmentIds = apartmentsList.map((a) => a.id);
+    const images =
+      apartmentIds.length > 0
+        ? await db
+            .select()
+            .from(apartmentImages)
+            .where(inArray(apartmentImages.apartmentId, apartmentIds))
+        : [];
+
+    // Combine apartments with their images
+    const apartmentsWithImages = apartmentsList.map((apartment) => ({
+      ...apartment,
+      images: images
+        .filter((img) => img.apartmentId === apartment.id)
+        .map((img) => img.imageUrl),
+    }));
+
     res.status(200).json({
-      apartments: allApartments,
+      apartments: apartmentsWithImages,
       pagination: {
         total: totalCount,
         page: Number(page),
@@ -148,7 +216,8 @@ export const getApartments: RequestHandler = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error getting apartments:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -156,20 +225,17 @@ export const getApartmentById: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const [apartment] = await db
-      .select()
-      .from(apartments)
-      .where(eq(apartments.id, Number(id)))
-      .limit(1);
+    const apartmentWithImages = await getApartmentWithImages(Number(id));
 
-    if (!apartment) {
+    if (!apartmentWithImages) {
       res.status(404).json({ message: "Apartment not found" });
       return;
     }
 
-    res.status(200).json({ apartment });
+    res.status(200).json({ apartment: apartmentWithImages });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error getting apartment:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -184,9 +250,9 @@ export const updateApartment: RequestHandler = async (
     }
 
     const { id } = req.params;
-    const updateData = req.body;
+    const updateData = req.body as ApartmentUpdateData;
 
-    // Check if apartment exists and belongs to the user (if user is owner)
+    // Check if apartment exists
     const [existingApartment] = await db
       .select()
       .from(apartments)
@@ -198,6 +264,7 @@ export const updateApartment: RequestHandler = async (
       return;
     }
 
+    // Authorization check
     if (
       req.user.role === "owner" &&
       existingApartment.ownerId !== req.user.userId
@@ -208,23 +275,46 @@ export const updateApartment: RequestHandler = async (
       return;
     }
 
-    // Don't allow changing ownerId
-    if (updateData.ownerId) {
-      delete updateData.ownerId;
-    }
+    // Transaction for updating apartment and images
+    const [updatedApartment] = await db.transaction(async (tx) => {
+      // Update apartment data
+      const [apartment] = await tx
+        .update(apartments)
+        .set(updateData)
+        .where(eq(apartments.id, Number(id)))
+        .returning();
 
-    const [updatedApartment] = await db
-      .update(apartments)
-      .set(updateData)
-      .where(eq(apartments.id, Number(id)))
-      .returning();
+      // Update images if provided
+      if (updateData.images) {
+        // Delete existing images
+        await tx
+          .delete(apartmentImages)
+          .where(eq(apartmentImages.apartmentId, Number(id)));
+
+        // Insert new images
+        if (updateData.images.length > 0) {
+          await tx.insert(apartmentImages).values(
+            updateData.images.map((imageUrl) => ({
+              apartmentId: Number(id),
+              imageUrl,
+            }))
+          );
+        }
+      }
+
+      return [apartment];
+    });
+
+    // Get the updated apartment with images
+    const apartmentWithImages = await getApartmentWithImages(Number(id));
 
     res.status(200).json({
       message: "Apartment updated successfully",
-      apartment: updatedApartment,
+      apartment: apartmentWithImages,
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error updating apartment:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -240,7 +330,7 @@ export const deleteApartment: RequestHandler = async (
 
     const { id } = req.params;
 
-    // Check if apartment exists and belongs to the user (if user is owner)
+    // Check if apartment exists
     const [existingApartment] = await db
       .select()
       .from(apartments)
@@ -252,17 +342,7 @@ export const deleteApartment: RequestHandler = async (
       return;
     }
 
-    if (
-      req.user.role === "owner" &&
-      existingApartment.ownerId !== req.user.userId
-    ) {
-      res
-        .status(403)
-        .json({ message: "You can only delete your own apartments" });
-      return;
-    }
-
-    // Admin can delete any apartment
+    // Authorization check
     if (
       req.user.role !== "admin" &&
       existingApartment.ownerId !== req.user.userId
@@ -273,11 +353,19 @@ export const deleteApartment: RequestHandler = async (
       return;
     }
 
-    await db.delete(apartments).where(eq(apartments.id, Number(id)));
+    // Transaction to delete apartment and its images
+    await db.transaction(async (tx) => {
+      await tx
+        .delete(apartmentImages)
+        .where(eq(apartmentImages.apartmentId, Number(id)));
+
+      await tx.delete(apartments).where(eq(apartments.id, Number(id)));
+    });
 
     res.status(200).json({ message: "Apartment deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error deleting apartment:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -296,6 +384,7 @@ export const getOwnerApartments: RequestHandler = async (
     const { page = 1, limit = 10 } = req.query;
     const offset = (Number(page) - 1) * Number(limit);
 
+    // Get owner's apartments
     const ownerApartments = await db
       .select()
       .from(apartments)
@@ -303,14 +392,33 @@ export const getOwnerApartments: RequestHandler = async (
       .limit(Number(limit))
       .offset(offset);
 
+    // Get count
     const totalCount = await db
       .select({ count: count() })
       .from(apartments)
       .where(eq(apartments.ownerId, req.user.userId))
       .then((res) => res[0]?.count || 0);
 
+    // Get images for these apartments
+    const apartmentIds = ownerApartments.map((a) => a.id);
+    const images =
+      apartmentIds.length > 0
+        ? await db
+            .select()
+            .from(apartmentImages)
+            .where(inArray(apartmentImages.apartmentId, apartmentIds))
+        : [];
+
+    // Combine apartments with their images
+    const apartmentsWithImages = ownerApartments.map((apartment) => ({
+      ...apartment,
+      images: images
+        .filter((img) => img.apartmentId === apartment.id)
+        .map((img) => img.imageUrl),
+    }));
+
     res.status(200).json({
-      apartments: ownerApartments,
+      apartments: apartmentsWithImages,
       pagination: {
         total: totalCount,
         page: Number(page),
@@ -319,6 +427,28 @@ export const getOwnerApartments: RequestHandler = async (
       },
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error });
+    console.error("Error getting owner apartments:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Helper function to get apartment with its images
+async function getApartmentWithImages(apartmentId: number) {
+  const [apartment] = await db
+    .select()
+    .from(apartments)
+    .where(eq(apartments.id, apartmentId))
+    .limit(1);
+
+  if (!apartment) return null;
+
+  const images = await db
+    .select()
+    .from(apartmentImages)
+    .where(eq(apartmentImages.apartmentId, apartmentId));
+
+  return {
+    ...apartment,
+    images: images.map((img) => img.imageUrl),
+  };
+}
