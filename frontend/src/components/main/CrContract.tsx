@@ -39,7 +39,9 @@ export const CrContract = () => {
           </Label>
         </div>
       </div>
-
+      <div className="flex flex-col">
+        <div className="border-[1px] h-full"></div>
+      </div>
       <div className="w-full md:w-1/3 space-y-4 flex flex-col justify-between">
         <div className="flex flex-col gap-2">
           <Button variant="outline" className="hover:bg-[#7065F0]">
