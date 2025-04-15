@@ -15,7 +15,7 @@ export default function RentLevel1Page() {
       <Navbar />
       <RentLevel />
       <ApartmentCategory />
-      <Information />
+      <Information />  
       <div className="flex justify-center">
         <MapNotit />
       </div>
@@ -26,7 +26,7 @@ export default function RentLevel1Page() {
       </div>
 
       <div className="flex justify-center mt-5">
-        <Button className="border bg-red-500 hover:bg-red-800 text-black">
+        <Button className="border bg-white hover:bg-[#7065F0] text-black">
           Үргэлжлүүлэх
         </Button>
       </div>

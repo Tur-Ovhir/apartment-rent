@@ -17,11 +17,12 @@ import {
   GeneralInfo,
   ImageCarousel,
 } from "@/components/main";
+import LoginPage from "./Login/page";
 
 export default function Home() {
   return (
     <div>
-      <div className="flex flex-col ">
+      {/* <div className="flex flex-col ">
         <Navbar />
         <Option />
         <Caraousel />
@@ -51,6 +52,9 @@ export default function Home() {
         <div>
           <ImageCarousel />
         </div>
+      </div> */}
+      <div>
+        <LoginPage/>
       </div>
     </div>
   );

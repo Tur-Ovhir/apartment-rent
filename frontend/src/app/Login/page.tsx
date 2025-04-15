@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { RiHome6Fill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
+import Link from "next/link";
 export default function LoginPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,9 +40,11 @@ export default function LoginPage() {
           <Checkbox className="w-5 h-5 border border-black" />
           <h1 className="font-light text-sm ">Түрээслүүлэгч</h1>
         </div>
+        <Link href="/Home">
         <Button className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3">
           Нэвтрэх
         </Button>
+        </Link>
         <div className="flex items-center justify-between mb-4">
           <hr className="w-1/3" />
           <span className="text-gray-500 text-sm">or</span>
