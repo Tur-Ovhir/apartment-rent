@@ -16,7 +16,7 @@ export const RentLevel = () => {
         <div key={index} className="flex items-center w-full">
           <div
             className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-xl ${
-              step.isActive ? "bg-red-600" : "bg-gray-400"
+              step.isActive ? "bg-[#7065F0]" : "bg-gray-400"
             }`}
           >
             {step.icon}

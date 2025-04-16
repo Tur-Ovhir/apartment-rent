@@ -1,6 +1,6 @@
 import { GeneralInfo, ImageCarousel, Navbar, Feature, RentLevel } from "@/components/main";
 
-export default function AdvertisePage (){
+export default function AdvertisePag1 (){
     return(
         <div>
             <Navbar/>

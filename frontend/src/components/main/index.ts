@@ -16,3 +16,6 @@ export * from "@/components/main/GeneralInfo";
 export * from "@/components/main/ImageCarousel";
 export * from "@/components/main/FeatureCard";
 export * from "@/components/main/LivingRoom";
+export * from "@/components/main/Contact"
+export * from "@/components/main/EmailOption"
+export * from "@/components/main/Done"
