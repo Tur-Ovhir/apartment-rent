@@ -13,11 +13,9 @@ const images = [
 export const ImageCarousel = () => {
   return (
     <div className="max-w-6xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg">
-      <div className="grid grid-cols-3 gap-0 relative">
+      <div className="grid grid-cols-3 gap-0 relative border">
         {images.map((img, i) => (
-          <div key={i} className="relative h-[400px] w-full">
-            <Image src={img.src} alt={img.alt} fill className="object-cover" />
-
+          <div key={i} className="relative h-[400px] w-full border">
             <Button
               size="icon"
               variant="ghost"
