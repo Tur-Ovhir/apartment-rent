@@ -1,6 +1,8 @@
 "use client";
 
 
+
+import { RentContract } from "@/components/main";
 import LoginPage from "./Login/page";
 
 export default function Home() {
@@ -8,6 +10,7 @@ export default function Home() {
     <div>
       <div>
         <LoginPage/>
+ <RentContract/>
       </div>
     </div>
   );
