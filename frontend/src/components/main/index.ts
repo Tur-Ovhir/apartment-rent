@@ -16,6 +16,11 @@ export * from "@/components/main/GeneralInfo";
 export * from "@/components/main/ImageCarousel";
 export * from "@/components/main/FeatureCard";
 export * from "@/components/main/LivingRoom";
-export * from "@/components/main/Contact"
-export * from "@/components/main/EmailOption"
-export * from "@/components/main/Done"
+export * from "@/components/main/Contact";
+export * from "@/components/main/EmailOption";
+export * from "@/components/main/Done";
+export * from "./AuthDialog";
+export * from "./CreateApartment";
+export * from "./PreviewApartment";
+export * from "./ContactApartment";
+export * from "./ContractApartment";
