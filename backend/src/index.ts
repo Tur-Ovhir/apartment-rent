@@ -5,7 +5,7 @@ import userRouter from "./routes/user.route";
 import apartmentRouter from "./routes/apartment.route";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors());
 app.use(express.json());

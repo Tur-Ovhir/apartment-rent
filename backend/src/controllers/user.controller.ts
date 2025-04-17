@@ -30,7 +30,7 @@ export const loginUser: RequestHandler = async (req, res) => {
 
     const passwordMatch = await bcrypt.compare(password, findUser.password);
     if (!passwordMatch) {
-      res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message: "Нууц үг буруу байна." });
       return;
     }
 
