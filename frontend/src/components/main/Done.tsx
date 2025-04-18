@@ -1,14 +1,24 @@
-"use client"
-import { Check } from "lucide-react";
+"use client";
 
-export const Done =() => {
+export const Done = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[200px] text-center space-y-3 font-light">
-      <Check className="w-20 h-20 text-green-500" />
+    <div className="flex flex-col items-center justify-center min-h-[200px] text-center space-y-6 font-light mt-12">
+      <svg
+        width="70"
+        height="48"
+        viewBox="0 0 70 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M68.88 3.86475L66.5871 1.57183C65.8666 0.850769 64.9059 0.454102 63.8804 0.454102C62.8549 0.454102 61.8937 0.850769 61.1732 1.57183L28.9544 33.79L8.82455 13.6596C8.10406 12.9397 7.14285 12.5425 6.11732 12.5425C5.09236 12.5425 4.13171 12.9397 3.41065 13.6596L1.11715 15.952C0.396098 16.6742 0 17.636 0 18.6604C0 19.6853 0.396098 20.6465 1.11715 21.3676L23.845 44.0943C23.8751 44.1369 23.907 44.1768 23.944 44.2132L26.2375 46.4686C26.958 47.1868 27.9192 47.5459 28.9527 47.5459H28.9646C29.9907 47.5459 30.952 47.1868 31.6713 46.4686L33.9654 44.1933C34.0024 44.1569 34.0337 44.1267 34.0524 44.096L68.8794 9.27239C70.3733 7.78191 70.3733 5.35695 68.88 3.86475Z"
+          fill="#31AA52"
+        />
+      </svg>
       <p className="text-gray-700 text-xl ">
         Таны зар амжилттай нийтлэгдсэн байна.
       </p>
       <p className="text-gray-500 text-xl">Баярлалаа</p>
     </div>
   );
-}
+};

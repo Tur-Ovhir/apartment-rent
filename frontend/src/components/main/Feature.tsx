@@ -60,6 +60,7 @@ export const Feature = () => {
       {items.map((feature) => (
         <Label key={feature} className="flex items-center space-x-2">
           <Checkbox
+            className="cursor-pointer"
             checked={selected.includes(feature)}
             onCheckedChange={() => toggleFeature(feature)}
           />
