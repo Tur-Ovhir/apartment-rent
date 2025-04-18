@@ -1,38 +1,20 @@
 "use client";
 
-import {
-  Caraousel,
-  Footer,
-  Navbar,
-  Card,
-  Option,
-  RentContract,
-  Map,
-  ImageUpload,
-  Feature,
-  MapNotit,
-} from "@/components/main";
+import { Caraousel, Footer, Navbar, Card, Map } from "@/components/main";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div>
-      <div className="flex flex-col ">
-        <Navbar />
-        <Option />
-        <Caraousel />
+      <Navbar />
+      <Caraousel />
+      <Link href="/All">
         <Card />
+      </Link>
+
+      <Map />
+      <div className="mt-5">
         <Footer />
-        <RentContract />
-        <Map />
-        <div className="mt-10 border">
-          <ImageUpload />
-        </div>
-        <div>
-          <Feature />
-        </div>
-        <div>
-          <MapNotit />
-        </div>
       </div>
     </div>
   );

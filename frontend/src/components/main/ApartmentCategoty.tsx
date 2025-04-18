@@ -17,7 +17,7 @@ export const ApartmentCategory = () => {
         <div className="space-y-2">
           <Label htmlFor="type">Төрөл *</Label>
           <Select>
-            <SelectTrigger>
+            <SelectTrigger defaultValue="premium">
               <SelectValue placeholder="Сонгох" />
             </SelectTrigger>
             <SelectContent>

@@ -77,41 +77,37 @@ export const createApartment: RequestHandler = async (
     }
 
     // Create apartment transaction
-    const [newApartment] = await db.transaction(async (tx) => {
-      const [apartment] = await tx
-        .insert(apartments)
-        .values({
-          title,
-          price,
-          rooms,
-          bathrooms,
-          area,
-          builtYear,
-          floor,
-          isFurnished: isFurnished || false,
-          facing,
-          description,
-          location,
-          latitude,
-          longitude,
-          interiorCategory,
-          otherCategory,
-          ownerId: req.user!.userId,
-        })
-        .returning();
+    const [newApartment] = await db
+      .insert(apartments)
+      .values({
+        title,
+        price,
+        rooms,
+        bathrooms,
+        area,
+        builtYear,
+        floor,
+        isFurnished: isFurnished || false,
+        facing,
+        description,
+        location,
+        latitude,
+        longitude,
+        interiorCategory,
+        otherCategory,
+        ownerId: req.user!.userId,
+      })
+      .returning();
 
-      // Add images if provided
-      if (images && images.length > 0) {
-        await tx.insert(apartmentImages).values(
-          images.map((imageUrl) => ({
-            apartmentId: apartment.id,
-            imageUrl,
-          }))
-        );
-      }
-
-      return [apartment];
-    });
+    // Add images if provided
+    if (images && images.length > 0) {
+      await db.insert(apartmentImages).values(
+        images.map((imageUrl) => ({
+          apartmentId: newApartment.id,
+          imageUrl,
+        }))
+      );
+    }
 
     // Get the apartment with images
     const apartmentWithImages = await getApartmentWithImages(newApartment.id);
@@ -276,34 +272,28 @@ export const updateApartment: RequestHandler = async (
     }
 
     // Transaction for updating apartment and images
-    const [updatedApartment] = await db.transaction(async (tx) => {
-      // Update apartment data
-      const [apartment] = await tx
-        .update(apartments)
-        .set(updateData)
-        .where(eq(apartments.id, Number(id)))
-        .returning();
+    const [updatedApartment] = await db
+      .update(apartments)
+      .set({
+        ...updateData,
+      })
+      .where(eq(apartments.id, Number(id)))
+      .returning();
 
-      // Update images if provided
-      if (updateData.images) {
-        // Delete existing images
-        await tx
-          .delete(apartmentImages)
-          .where(eq(apartmentImages.apartmentId, Number(id)));
+    if (updateData.images) {
+      await db
+        .delete(apartmentImages)
+        .where(eq(apartmentImages.apartmentId, Number(id)));
 
-        // Insert new images
-        if (updateData.images.length > 0) {
-          await tx.insert(apartmentImages).values(
-            updateData.images.map((imageUrl) => ({
-              apartmentId: Number(id),
-              imageUrl,
-            }))
-          );
-        }
+      if (updateData.images.length > 0) {
+        await db.insert(apartmentImages).values(
+          updateData.images.map((imageUrl) => ({
+            apartmentId: Number(id),
+            imageUrl,
+          }))
+        );
       }
-
-      return [apartment];
-    });
+    }
 
     // Get the updated apartment with images
     const apartmentWithImages = await getApartmentWithImages(Number(id));
@@ -354,13 +344,11 @@ export const deleteApartment: RequestHandler = async (
     }
 
     // Transaction to delete apartment and its images
-    await db.transaction(async (tx) => {
-      await tx
-        .delete(apartmentImages)
-        .where(eq(apartmentImages.apartmentId, Number(id)));
+    await db
+      .delete(apartmentImages)
+      .where(eq(apartmentImages.apartmentId, Number(id)));
 
-      await tx.delete(apartments).where(eq(apartments.id, Number(id)));
-    });
+    await db.delete(apartments).where(eq(apartments.id, Number(id)));
 
     res.status(200).json({ message: "Apartment deleted successfully" });
   } catch (error) {

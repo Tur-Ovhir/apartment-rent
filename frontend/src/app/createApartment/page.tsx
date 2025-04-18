@@ -5,6 +5,7 @@ import {
   Navbar,
   PreviewApartment,
   RentLevel,
+  Done,
 } from "@/components/main";
 import { useState } from "react";
 
@@ -18,7 +19,7 @@ export default function Apartment() {
       {step === 1 && <CreateApartment step={step} setStep={setStep} />}
       {step === 2 && <PreviewApartment step={step} setStep={setStep} />}
       {step === 3 && <ContractApartment step={step} setStep={setStep} />}
-      {step > 3 && <div>finish</div>}
+      {step > 3 && <Done />}
     </div>
   );
 }
