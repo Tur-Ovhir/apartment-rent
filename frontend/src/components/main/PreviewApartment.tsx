@@ -1,3 +1,4 @@
+"use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ImageCarousel } from "./ImageCarousel";
 import { GeneralInfo } from "./GeneralInfo";
