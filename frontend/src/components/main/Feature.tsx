@@ -2,7 +2,8 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@radix-ui/react-label";
-import React, { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
+import { Card, CardContent } from "../ui/card";
 
 const interiorFeatures = [
   "WiFi суурилуулсан",
@@ -44,10 +45,24 @@ const otherFeatures = [
   "Усанд сэлэх бассейн",
 ];
 
-export const Feature = () => {
-  const [selected, setSelected] = useState<string[]>([]);
+interface FeatureProps {
+  selectedInterior: string[];
+  selectedOther: string[];
+  setSelectedInterior: Dispatch<SetStateAction<string[]>>;
+  setSelectedOther: Dispatch<SetStateAction<string[]>>;
+}
 
-  const toggleFeature = (feature: string) => {
+export const Feature = ({
+  selectedOther,
+  selectedInterior,
+  setSelectedOther,
+  setSelectedInterior,
+}: FeatureProps) => {
+  const toggleFeature = (
+    feature: string,
+    _selected: string[],
+    setSelected: Dispatch<SetStateAction<string[]>>
+  ) => {
     setSelected((prev) =>
       prev.includes(feature)
         ? prev.filter((f) => f !== feature)
@@ -55,32 +70,45 @@ export const Feature = () => {
     );
   };
 
-  const renderCheckboxGrid = (items: string[]) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-[900px] justify-center">
+  const renderCheckboxGrid = (
+    items: string[],
+    selected: string[],
+    setSelected: Dispatch<SetStateAction<string[]>>
+  ) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full justify-center">
       {items.map((feature) => (
         <Label key={feature} className="flex items-center space-x-2">
           <Checkbox
             className="cursor-pointer"
-            checked={selected.includes(feature)}
-            onCheckedChange={() => toggleFeature(feature)}
+            checked={Array.isArray(selected) && selected.includes(feature)}
+            onCheckedChange={() =>
+              toggleFeature(feature, selected, setSelected)
+            }
           />
           <span className="text-sm">{feature}</span>
         </Label>
       ))}
     </div>
   );
-  return (
-    <div className="p-4 space-y-6 flex flex-col gap-4">
-      <div>
-        <h2 className="text-xl font-bold mb-2">Онцлог</h2>
-        <h3 className="text-lg font-semibold mb-2">Интерьерийн онцлог</h3>
-        {renderCheckboxGrid(interiorFeatures)}
-      </div>
 
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Бусад</h3>
-        {renderCheckboxGrid(otherFeatures)}
-      </div>
-    </div>
+  return (
+    <Card className="w-[900px] mx-auto p-6 shadow-xl rounded-2xl border border-gray-200">
+      <CardContent className="space-y-6">
+        <div>
+          <h2 className="text-xl font-bold mb-2">Онцлог</h2>
+          <h3 className="text-lg font-semibold mb-2">Интерьерийн онцлог</h3>
+          {renderCheckboxGrid(
+            interiorFeatures,
+            selectedInterior,
+            setSelectedInterior
+          )}
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Бусад</h3>
+          {renderCheckboxGrid(otherFeatures, selectedOther, setSelectedOther)}
+        </div>
+      </CardContent>
+    </Card>
   );
 };

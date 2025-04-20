@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       toast.success("Амжилттай нэвтэрлээ");
       router.replace("/");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast.error("И-мэйл нууц үг буруу!!!");
     }
   };
@@ -80,13 +80,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       toast.success("Амжилттай бүртгэгдлээ");
       router.replace("/");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast.error("Мэдээлэл буруу!!!");
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    setUser(null);
     router.replace("/");
     toast.warning("Амжилттай гарлаа");
   };
@@ -104,7 +105,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setIsReady(true);
       setUser(res.data.user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       localStorage.removeItem("token");
       toast.error("Хэрэглэгчийн мэдээлэл буруу!");
     }

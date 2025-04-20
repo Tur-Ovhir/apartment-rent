@@ -104,7 +104,7 @@ export const AuthDialog = () => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="h-[50px] bg-white text-black border hover:bg-[#7065F0] hover:text-white"
+          className="h-[50px] bg-white text-black border hover:bg-[#7065F0] hover:text-white cursor-pointer"
         >
           Нэвтрэх
         </Button>
@@ -139,7 +139,7 @@ export const AuthDialog = () => {
             />
             <Button
               type="submit"
-              className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3"
+              className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3 cursor-pointer"
             >
               Нэвтрэх
             </Button>
@@ -320,7 +320,7 @@ export const AuthDialog = () => {
             </Tabs>
             <Button
               type="submit"
-              className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3"
+              className="w-full bg-blue-400 text-white py-2 rounded-md mb-4 hover:bg-blue-500 transition mt-3 cursor-pointer"
             >
               Бүртгүүлэх
             </Button>

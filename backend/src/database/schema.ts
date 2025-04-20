@@ -38,6 +38,7 @@ const apartments = pgTable("apartments", {
   builtYear: integer("built_year").notNull(), // ашиглалтад орсон он
   floor: integer("floor").notNull(), // давхар
   isFurnished: boolean("is_furnished").notNull(), // тавилгатай эсэх
+  isHighlight: boolean("is_highlight").notNull(),
   facing: text("facing"), // хаашаа харсан (зүүн, баруун, гэх мэт)
   description: text("description"), // тайлбар
 

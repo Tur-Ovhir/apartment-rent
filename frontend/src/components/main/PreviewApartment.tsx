@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { ImageCarousel } from "./ImageCarousel";
 import { GeneralInfo } from "./GeneralInfo";
-import { Feature } from "./Feature";
 import { Button } from "../ui/button";
 
 type PreviewApartmentProps = {
@@ -17,9 +16,6 @@ export const PreviewApartment = ({ step, setStep }: PreviewApartmentProps) => {
       </div>
       <div className="mt-10">
         <GeneralInfo />
-      </div>
-      <div className="flex justify-center mt-10">
-        <Feature />
       </div>
       <div className="flex justify-center mt-5 mb-20">
         <Button

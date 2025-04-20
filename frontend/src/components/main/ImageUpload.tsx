@@ -5,7 +5,12 @@ import React, { useState } from "react";
 import { GrGallery } from "react-icons/gr";
 import { Input } from "../ui/input";
 
-export const ImageUpload = () => {
+interface ImageUploadProps {
+  images: string[];
+  setImages: (images: string[]) => void;
+}
+
+export const ImageUpload = ({}: ImageUploadProps) => {
   const [images, setImages] = useState<File[]>([]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

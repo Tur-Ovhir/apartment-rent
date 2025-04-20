@@ -5,4 +5,5 @@ export type userType = {
   name: string;
   avatar: string;
   title: string;
+  role: string;
 };
