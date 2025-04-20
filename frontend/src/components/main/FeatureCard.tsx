@@ -21,6 +21,7 @@ export const FeatureCard = ({ apartments }: FeatureCardProps) => {
         {apartments.map((apt: ApartmentType) => (
           <OneCard
             key={apt.id}
+            id={apt.id}
             image={apt.images[0]}
             price={apt.price}
             title={apt.title}

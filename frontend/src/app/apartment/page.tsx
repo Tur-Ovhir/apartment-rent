@@ -3,7 +3,7 @@ import { FeatureCard, Footer, Navbar, Option } from "@/components/main";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
-export const ApartmentPage = () => {
+export default function ApartmentPage() {
   const [apartments, setApartments] = useState([]);
 
   const fetchApartments = async (filters = {}) => {
@@ -29,4 +29,4 @@ export const ApartmentPage = () => {
       <Footer />
     </div>
   );
-};
+}
