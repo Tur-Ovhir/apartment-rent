@@ -1,26 +1,38 @@
-"use client"
+"use client";
 
-import { Button } from "../ui/button"
+import { Button } from "../ui/button";
 import { HiArrowsUpDown } from "react-icons/hi2";
-export const FeatureCard = ()=> {
-    return(
-<div className="flex flex-col m-auto gap-5">
-      <div className="flex flex-row gap-4">
-        <h1 className="font-bold">Онцлох байр</h1>
-       <Button className="bg-white border text-black -mt-1 hover:text-red-500 ">
-        Ухаалаг эрэмбэ <HiArrowsUpDown className="0"/>
-       </Button>
+import { OneCard } from "./OneCard";
+import { ApartmentType } from "@/types";
+
+interface FeatureCardProps {
+  apartments: ApartmentType[];
+}
+export const FeatureCard = ({ apartments }: FeatureCardProps) => {
+  return (
+    <div className="flex flex-col mt-6 gap-5 w-full">
+      <div className="flex flex-row gap-4 w-full">
+        <h1 className="font-bold text-2xl">Онцлох байр</h1>
+        <Button className="bg-white border text-black hover:text-red-500  cursor-pointer">
+          Ухаалаг эрэмбэ <HiArrowsUpDown className="0" />
+        </Button>
       </div>
       <div className="grid grid-cols-4 gap-4 w-full  justify-center mx-auto mt-2">
-        {Array.from({ length: 20 }).map((_, index) => (
-          <div
-            key={index}
-            className="w-[285px] h-[318px] border rounded-xl shadow-md flex items-center justify-center text-xl font-semibold"
-          >
-            Card {index + 1}
-          </div>
+        {apartments.map((apt: ApartmentType) => (
+          <OneCard
+            key={apt.id}
+            image={apt.images[0]}
+            price={apt.price}
+            title={apt.title}
+            location={apt.location}
+            isHighlight={apt.isHighlight}
+            area={apt.area}
+            rooms={apt.rooms}
+            floor={apt.floor}
+            createdAt={apt.createdAt}
+          />
         ))}
       </div>
     </div>
-    )
-}
+  );
+};

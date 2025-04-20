@@ -1,22 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { GrGallery } from "react-icons/gr";
 import { Input } from "../ui/input";
+import { api } from "@/lib/axios";
 
 interface ImageUploadProps {
   images: string[];
   setImages: (images: string[]) => void;
 }
 
-export const ImageUpload = ({}: ImageUploadProps) => {
-  const [images, setImages] = useState<File[]>([]);
+export const ImageUpload = ({ images, setImages }: ImageUploadProps) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []).slice(0, 30);
+    console.log(images);
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    const newImages = [...images, ...files].slice(0, 30);
-    setImages(newImages);
+    try {
+      const res = await api.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const urls = res.data.map((img: any) => img.secure_url);
+      setImages([...images, ...urls].slice(0, 30));
+    } catch (err) {
+      console.error("Image upload failed", err);
+    }
   };
 
   return (
@@ -60,14 +75,14 @@ export const ImageUpload = ({}: ImageUploadProps) => {
 
       {images.length > 0 && (
         <div className="grid grid-cols-3 gap-4">
-          {images.map((image, index) => (
+          {images.map((url, index) => (
             <div
               key={index}
               className="relative w-full h-32 overflow-hidden rounded shadow"
             >
               <Image
-                src={URL.createObjectURL(image)}
-                alt={`upload-${index}`}
+                src={url}
+                alt={`uploaded-${index}`}
                 fill
                 className="object-cover rounded"
               />

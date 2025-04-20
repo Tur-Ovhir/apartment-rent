@@ -34,9 +34,14 @@ export interface ApartmentFormValues {
 type CreateApartmentProps = {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
+  setApartmentId: Dispatch<SetStateAction<number | undefined>>;
 };
 
-export const CreateApartment = ({ step, setStep }: CreateApartmentProps) => {
+export const CreateApartment = ({
+  step,
+  setStep,
+  setApartmentId,
+}: CreateApartmentProps) => {
   const [selectedInterior, setSelectedInterior] = useState<string[]>([]);
   const [selectedOther, setSelectedOther] = useState<string[]>([]);
 
@@ -110,13 +115,12 @@ export const CreateApartment = ({ step, setStep }: CreateApartmentProps) => {
             },
           }
         );
-        console.log(res.data.apartment.id);
+        setApartmentId(res.data.apartment.id);
         setStep(step + 1);
       } catch (error) {
         console.log(error);
         toast.error("Мэдээлэл буруу!!!");
       }
-      console.log(values);
     },
   });
 
