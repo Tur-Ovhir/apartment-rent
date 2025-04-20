@@ -35,19 +35,21 @@ export const Navbar = () => {
           {user ? (
             <Button
               onClick={logout}
-              className="h-[50px] bg-white text-black border hover:bg-red-400 hover:text-white"
+              className="h-[50px] bg-white text-black border hover:bg-red-400 hover:text-white cursor-pointer"
             >
               гарах
             </Button>
           ) : (
             <AuthDialog />
           )}
-          <Button
-            onClick={handleCreate}
-            className="h-[50px] bg-white text-black border hover:bg-[#7065F0] hover:text-white"
-          >
-            Орон сууц нэмэх
-          </Button>
+          {user?.role == "owner" && (
+            <Button
+              onClick={handleCreate}
+              className="h-[50px] bg-white text-black border hover:bg-[#7065F0] hover:text-white cursor-pointer"
+            >
+              Орон сууц нэмэх
+            </Button>
+          )}
         </div>
       </div>
     </div>

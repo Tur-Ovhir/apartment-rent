@@ -8,7 +8,14 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 
-export const ApartmentCategory = () => {
+interface ApartmentCategoryProps {
+  highlight: boolean;
+  setHighlight: (highlight: boolean) => void;
+}
+export const ApartmentCategory = ({
+  highlight,
+  setHighlight,
+}: ApartmentCategoryProps) => {
   return (
     <Card className="w-[900px] mx-auto p-6 shadow-md rounded-2xl border border-gray-200 mt-8">
       <CardContent className="space-y-4">
@@ -16,13 +23,16 @@ export const ApartmentCategory = () => {
 
         <div className="space-y-2">
           <Label htmlFor="type">Төрөл *</Label>
-          <Select>
-            <SelectTrigger defaultValue="premium">
+          <Select
+            value={highlight ? "highlight" : "normal"}
+            onValueChange={(value) => setHighlight(value === "highlight")}
+          >
+            <SelectTrigger>
               <SelectValue placeholder="Сонгох" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="common">Онцлох</SelectItem>
-              <SelectItem value="premium">Энгийн</SelectItem>
+              <SelectItem value="highlight">Онцлох</SelectItem>
+              <SelectItem value="normal">Энгийн</SelectItem>
             </SelectContent>
           </Select>
         </div>

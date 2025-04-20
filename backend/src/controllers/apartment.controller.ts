@@ -13,6 +13,7 @@ interface ApartmentCreateData {
   builtYear: number;
   floor: number;
   isFurnished: boolean;
+  isHighlight: boolean;
   facing?: string;
   description?: string;
   location: string;
@@ -46,6 +47,7 @@ export const createApartment: RequestHandler = async (
       builtYear,
       floor,
       isFurnished,
+      isHighlight,
       facing,
       description,
       location,
@@ -88,6 +90,7 @@ export const createApartment: RequestHandler = async (
         builtYear,
         floor,
         isFurnished: isFurnished || false,
+        isHighlight: isHighlight || false,
         facing,
         description,
         location,
@@ -131,7 +134,7 @@ export const getApartments: RequestHandler = async (req, res) => {
       maxRooms,
       minArea,
       maxArea,
-      isFurnished,
+      isHighlight,
       facing,
       interiorCategory,
       otherCategory,
@@ -150,8 +153,8 @@ export const getApartments: RequestHandler = async (req, res) => {
       maxRooms ? lte(apartments.rooms, Number(maxRooms)) : undefined,
       minArea ? gte(apartments.area, Number(minArea)) : undefined,
       maxArea ? lte(apartments.area, Number(maxArea)) : undefined,
-      isFurnished !== undefined
-        ? eq(apartments.isFurnished, isFurnished === "true")
+      isHighlight !== undefined
+        ? eq(apartments.isHighlight, isHighlight === "true")
         : undefined,
       facing ? eq(apartments.facing, String(facing)) : undefined,
       interiorCategory

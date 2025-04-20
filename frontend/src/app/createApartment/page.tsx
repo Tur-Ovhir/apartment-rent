@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 
 export default function Apartment() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(3);
 
   return (
     <div className="flex flex-col">

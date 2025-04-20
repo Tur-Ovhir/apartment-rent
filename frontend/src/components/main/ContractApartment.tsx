@@ -13,7 +13,7 @@ export const ContractApartment = ({
   setStep,
 }: ContractApartmentProps) => {
   return (
-    <div>
+    <div className="space-y-4">
       <Contact />
       <EmailOption />
       <div className="flex justify-center mt-5 mb-20">
