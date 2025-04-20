@@ -1,39 +1,29 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ImageCarousel } from "./ImageCarousel";
-import { GeneralInfo } from "./GeneralInfo";
-import { Button } from "../ui/button";
+"use client";
+import { GeneralInfo } from "@/components/main";
+import { Card, CardContent } from "@/components/ui/card";
 import { api } from "@/lib/axios";
 import { ApartmentType } from "@/types";
-import { Card, CardContent } from "../ui/card";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-type PreviewApartmentProps = {
-  step: number;
-  apartmentId: number | undefined;
-  setStep: Dispatch<SetStateAction<number>>;
-};
-
-export const PreviewApartment = ({
-  step,
-  setStep,
-  apartmentId,
-}: PreviewApartmentProps) => {
+export default function ApartmentIdPage() {
+  const { id } = useParams();
   const [apartment, setApartment] = useState<ApartmentType>();
-  const fetchApartment = async () => {
-    try {
-      const res = await api.get(`/apartment/${apartmentId}`);
-      setApartment(res.data.apartment);
-    } catch (error) {
-      console.log("Failed to fetch:", error);
-    }
-  };
 
   useEffect(() => {
-    fetchApartment();
-  }, [apartmentId]);
-
+    const getProduct = async () => {
+      try {
+        const response = await api.get(`/apartment/${id}`);
+        setApartment(response.data.apartment);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+  }, [id]);
   return (
     <div className="space-y-5">
-      <ImageCarousel images={apartment?.images} />
+      {/* <ImageCarousel images={apartment?.images} /> */}
       <div className="mt-10">
         <GeneralInfo apartment={apartment} />
       </div>
@@ -113,14 +103,24 @@ export const PreviewApartment = ({
           </div>
         </CardContent>
       </Card>
-      <div className="flex justify-center mb-20">
-        <Button
-          onClick={() => setStep(step + 1)}
-          className="border text-white bg-[#7065F0] cursor-pointer"
-        >
-          Үргэлжлүүлэх
-        </Button>
-      </div>
+      <Card className="w-[900px] mx-auto p-6 shadow-lg rounded-2xl border border-gray-200">
+        <CardContent className="flex flex-col gap-4">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Байршлын мэдээлэл
+          </h2>
+          {apartment?.latitude && apartment?.longitude && (
+            <iframe
+              src={`https://maps.google.com/maps?q=${apartment.latitude},${apartment.longitude}&z=15&output=embed`}
+              width="800"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
-};
+}

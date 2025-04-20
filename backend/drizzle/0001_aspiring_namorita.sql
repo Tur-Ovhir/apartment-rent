@@ -1,0 +1,1 @@
+ALTER TABLE "apartments" ADD COLUMN "is_highlight" boolean NOT NULL;
