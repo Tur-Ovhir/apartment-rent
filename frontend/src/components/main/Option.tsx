@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -21,7 +21,7 @@ export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
   const [area, setArea] = useState("");
   const [search, setSearch] = useState("");
 
-  const handleSearch = () => {
+  useEffect(() => {
     const filters: Record<string, string> = {};
 
     if (district) filters.location = district;
@@ -31,7 +31,7 @@ export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
     if (search) filters.search = search;
 
     onFilter(filters);
-  };
+  }, [district, rooms, price, area, search]);
 
   return (
     <Card className="w-full mx-auto p-6 shadow-lg rounded-2xl border border-gray-200">
@@ -95,7 +95,7 @@ export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Button onClick={handleSearch} variant="outline">
+          <Button variant="outline">
             <FaSearch className="w-4 h-4" />
           </Button>
         </div>

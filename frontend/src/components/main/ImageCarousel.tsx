@@ -11,7 +11,7 @@ export const ImageCarousel = ({ images }: { images: string[] | undefined }) => {
             src={
               images
                 ? images[0]
-                : "https://res.cloudinary.com/dykm0aphm/image/upload/v1744442469/Screenshot_2025-04-12_at_13.56.12_vupomr.png"
+                : "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
             }
             alt="Map preview"
             fill
@@ -23,7 +23,7 @@ export const ImageCarousel = ({ images }: { images: string[] | undefined }) => {
             src={
               images
                 ? images[1]
-                : "https://res.cloudinary.com/dykm0aphm/image/upload/v1744442469/Screenshot_2025-04-12_at_13.56.12_vupomr.png"
+                : "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
             }
             alt="Map preview"
             fill
@@ -35,7 +35,7 @@ export const ImageCarousel = ({ images }: { images: string[] | undefined }) => {
             src={
               images
                 ? images[2]
-                : "https://res.cloudinary.com/dykm0aphm/image/upload/v1744442469/Screenshot_2025-04-12_at_13.56.12_vupomr.png"
+                : "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
             }
             alt="Map preview"
             fill

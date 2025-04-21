@@ -29,9 +29,11 @@ export const Card = ({ isHighlight }: { isHighlight: boolean }) => {
   useEffect(() => {
     fetchApartments();
   }, []);
+
   const handleAll = () => {
     router.push("/apartment");
   };
+
   return (
     <div className="flex flex-col py-5 m-auto">
       <div className="flex flex-row justify-between">
@@ -68,21 +70,6 @@ export const Card = ({ isHighlight }: { isHighlight: boolean }) => {
                   createdAt={apartment.createdAt}
                 />
               ))}
-        {Array.from({ length: 4 }).map((_, index) => (
-          <OneCard
-            key={index}
-            id={1}
-            image={""}
-            price={2900000}
-            title={"Олимп хотхон"}
-            location={"БЗД 26-р хороо"}
-            isHighlight={true}
-            area={89}
-            rooms={3}
-            floor={12}
-            createdAt={"sdf"}
-          />
-        ))}
       </div>
     </div>
   );
