@@ -208,10 +208,10 @@ export const Information = ({ apartmentForm }: InformationProps) => {
                 <SelectValue placeholder="Сонгох" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="south">Урагшаа</SelectItem>
-                <SelectItem value="north">Хойшоо</SelectItem>
-                <SelectItem value="east">Зүүн</SelectItem>
-                <SelectItem value="west">Баруун</SelectItem>
+                <SelectItem value="Урагшаа">Урагшаа</SelectItem>
+                <SelectItem value="Хойшоо">Хойшоо</SelectItem>
+                <SelectItem value="Зүүн">Зүүн</SelectItem>
+                <SelectItem value="Баруун">Баруун</SelectItem>
               </SelectContent>
             </Select>
           </div>
