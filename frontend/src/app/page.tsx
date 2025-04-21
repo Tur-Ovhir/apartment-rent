@@ -31,7 +31,7 @@ export default function Home() {
         <div className="flex items-center gap-2">
           <p>{1} дугаартай байранд түрээслэх хүсэлтийг хянсан байна.</p>
           <Button
-            onClick={() => router.push("/createContract")}
+            onClick={() => router.push("/CreateContract")}
             className="bg-[#7065F0] cursor-pointer"
           >
             Гэрээ
