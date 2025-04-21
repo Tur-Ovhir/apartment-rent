@@ -103,7 +103,7 @@ export default function ApartmentIdPage() {
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button className="w-40 cursor-pointer bg-green-600">
-                      ХОЛБОГДОХ
+                      Холбогдох
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
