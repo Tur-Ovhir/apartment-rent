@@ -46,7 +46,7 @@ export default function ApartmentIdPage() {
     <div>
       <Navbar />
       <div className="space-y-5">
-        <div className="w-[900px] m-auto space-y-4 mt-12 relative">
+        <div className="w-[600px] m-auto space-y-4 mt-12 relative">
           <div className="relative w-full h-96">
             <Image
               src={
