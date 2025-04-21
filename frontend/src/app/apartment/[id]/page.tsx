@@ -24,12 +24,14 @@ export default function ApartmentIdPage() {
   const { id } = useParams();
   const { user } = useAuth();
   const [apartment, setApartment] = useState<ApartmentType>();
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
 
   useEffect(() => {
     const getProduct = async () => {
       try {
         const response = await api.get(`/apartment/${id}`);
         setApartment(response.data.apartment);
+        setSelectedImage(response.data.apartment?.images?.[0]);
       } catch (err) {
         console.log(err);
       }
@@ -46,40 +48,48 @@ export default function ApartmentIdPage() {
     <div>
       <Navbar />
       <div className="space-y-5">
-        <div className="w-[600px] m-auto space-y-4 mt-12 relative">
-          <div className="relative w-full h-96">
-            <Image
-              src={
-                apartment?.images[0] ||
-                "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
-              }
-              alt="Map preview"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="h-36 flex gap-4">
-            {apartment?.images.slice(1, 5).map((img, i) => (
-              <div key={i} className="relative w-full h-full">
+        <div className="w-[900px] m-auto mt-12 flex gap-4 relative">
+          <div className="flex flex-col gap-4 w-1/3">
+            {apartment?.images.slice(0, 5).map((img, i) => (
+              <div
+                key={i}
+                className={`relative w-full h-24 rounded-md overflow-hidden cursor-pointer border ${
+                  selectedImage === img
+                    ? "border-blue-500"
+                    : "border-transparent"
+                }`}
+                onClick={() => setSelectedImage(img)}
+              >
                 <Image
                   src={
                     img ||
                     "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
                   }
-                  alt="Map preview"
+                  alt={`Thumbnail ${i + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-cover hover:scale-105 transition-transform"
                 />
               </div>
             ))}
           </div>
-          {user?.role != "owner" && (
+
+          <div className="relative w-2/3 h-[500px] rounded-md overflow-hidden shadow-lg">
+            <Image
+              src={
+                selectedImage ||
+                "https://res.cloudinary.com/dnpwi1bxt/image/upload/v1737948707/samples/landscapes/architecture-signs.jpg"
+              }
+              alt="Main preview"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {user?.role !== "owner" && (
             <div className="absolute w-60 h-[360px] top-0 -right-[300px] border rounded-lg shadow-lg text-center flex flex-col items-center p-2">
               <div className="w-32 h-32 rounded-full overflow-hidden relative">
                 <Image
-                  src={
-                    "https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
-                  }
+                  src="https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
                   alt="user"
                   fill
                   className="object-cover"
@@ -123,9 +133,7 @@ export default function ApartmentIdPage() {
                     <div className="flex items-center gap-2">
                       <div className="w-12 h-12 relative rounded-full overflow-hidden">
                         <Image
-                          src={
-                            "https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
-                          }
+                          src="https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
                           alt="user"
                           fill
                           className="object-cover"
@@ -160,15 +168,18 @@ export default function ApartmentIdPage() {
             </div>
           )}
         </div>
+
         <div className="mt-10">
           <GeneralInfo apartment={apartment} />
         </div>
+
         <Card className="w-[900px] mx-auto p-6 shadow-lg rounded-2xl border border-gray-200">
           <CardContent className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-gray-800">Дэлгэрэнгүй</h2>
             <p className="text-muted-foreground">{apartment?.description}</p>
           </CardContent>
         </Card>
+
         <Card className="w-[900px] mx-auto p-6 shadow-lg rounded-2xl border border-gray-200">
           <CardContent className="flex gap-4">
             <div className="flex-1">
@@ -180,27 +191,7 @@ export default function ApartmentIdPage() {
                   key={index}
                   className="text-muted-foreground flex items-center gap-1"
                 >
-                  <svg
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clipPath="url(#clip0_37_681)">
-                      <path
-                        d="M9.88771 1.31939C9.73424 1.16048 9.48102 1.15608 9.32212 1.30955C9.31879 1.31276 9.31551 1.31604 9.31227 1.31939L2.79508 7.8366L0.677882 5.7194C0.518976 5.56593 0.265758 5.57034 0.112289 5.72924C-0.0374297 5.88426 -0.0374297 6.13 0.112289 6.28502L2.51229 8.68502C2.6685 8.84118 2.92169 8.84118 3.07788 8.68502L9.87787 1.88501C10.0368 1.73151 10.0412 1.4783 9.88771 1.31939Z"
-                        fill="black"
-                        fillOpacity="0.5"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_37_681">
-                        <rect width="10" height="10" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-
+                  <span className="w-2 h-2 bg-black opacity-50 rounded-full"></span>
                   {item.trim()}
                 </p>
               ))}
@@ -212,33 +203,14 @@ export default function ApartmentIdPage() {
                   key={index}
                   className="text-muted-foreground flex items-center gap-1"
                 >
-                  <svg
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <g clipPath="url(#clip0_37_681)">
-                      <path
-                        d="M9.88771 1.31939C9.73424 1.16048 9.48102 1.15608 9.32212 1.30955C9.31879 1.31276 9.31551 1.31604 9.31227 1.31939L2.79508 7.8366L0.677882 5.7194C0.518976 5.56593 0.265758 5.57034 0.112289 5.72924C-0.0374297 5.88426 -0.0374297 6.13 0.112289 6.28502L2.51229 8.68502C2.6685 8.84118 2.92169 8.84118 3.07788 8.68502L9.87787 1.88501C10.0368 1.73151 10.0412 1.4783 9.88771 1.31939Z"
-                        fill="black"
-                        fillOpacity="0.5"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_37_681">
-                        <rect width="10" height="10" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-
+                  <span className="w-2 h-2 bg-black opacity-50 rounded-full"></span>
                   {item.trim()}
                 </p>
               ))}
             </div>
           </CardContent>
         </Card>
+
         <Card className="w-[900px] mx-auto p-6 shadow-lg rounded-2xl border border-gray-200 mb-4">
           <CardContent className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-gray-800">
