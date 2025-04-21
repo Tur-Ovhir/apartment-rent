@@ -3,8 +3,30 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Checkbox } from "../ui/checkbox";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+interface ContractFormValues {
+  rentalPeriod: number;
+  paymentType: string;
+  paymentAmount: number;
+  deposit: number;
+  utilityIncluded: string;
+  additional: string;
+}
 
 export const CrContract = () => {
+  const [contract, setContract] = useState<ContractFormValues | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedContract = localStorage.getItem("contract");
+    if (storedContract) {
+      setContract(JSON.parse(storedContract));
+    }
+  }, []);
+
   const sections = [
     { id: "goal", title: "1. Гэрээний зорилго" },
     { id: "duration", title: "2. Гэрээний хугацаа ба төлбөр" },
@@ -18,6 +40,12 @@ export const CrContract = () => {
     },
   ];
 
+  const handleRenterContract = () => {
+    localStorage.removeItem("contract");
+    router.push("/");
+    toast.success("Гэрээ амжилттай үүслээ");
+  };
+
   return (
     <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-6 gap-10">
       <div className="flex-1 space-y-6">
@@ -27,7 +55,7 @@ export const CrContract = () => {
           <div key={id} id={id} className="scroll-mt-24">
             <h2 className="text-lg font-bold mb-1 ">{title}</h2>
             <p className="text-sm text-gray-700 leading-relaxed font-light">
-              {getContentById(id)}
+              {getContentById(id, contract)}
             </p>
           </div>
         ))}
@@ -47,7 +75,10 @@ export const CrContract = () => {
           <Button variant="outline" className="hover:bg-[#7065F0]">
             ДАН баталгаажуулалт
           </Button>
-          <Button className="text-black bg-white hover:bg-[#7065F0] border">
+          <Button
+            onClick={handleRenterContract}
+            className="text-black bg-white cursor-pointer hover:bg-[#7065F0] border"
+          >
             Гэрээ байгуулах
           </Button>
         </div>
@@ -61,12 +92,25 @@ export const CrContract = () => {
   );
 };
 
-function getContentById(id: string): string {
+function getContentById(
+  id: string,
+  contract: ContractFormValues | null
+): string {
+  if (!contract) return "";
+
   switch (id) {
     case "goal":
-      return `Энэхүү гэрээ нь хоёр талын харилцан тохиролцсон нөхцлийн дагуу тодорхой хугацаанд хөрөнгө түрээслэх, түүний ашиглалттай холбоотой эрх, үүрэг, хариуцлагыг зохицуулах зорилготой юм.`;
+      return `Энэхүү гэрээ нь хоёр талын харилцан тохиролцсон нөхцлийн дагуу тодорхой хугацаанд хөрөнгө түрээслэх, түүнийг ашиглахтай холбоотой эрх, үүрэг, хариуцлагыг зохицуулах зорилготой юм.  
+Түрээслүүлэгч нь өөрийн өмчлөлд байгаа хөрөнгийг Түрээслэгчийн эзэмшил, ашиглалтанд шилжүүлж, харин Түрээслэгч нь тухайн хөрөнгийг зориулалтын дагуу ашиглаж, тохиролцсон хугацаанд түрээсийн төлбөрийг бүрэн төлөх үүрэгтэй.`;
     case "duration":
-      return `Гэрээний хүчинтэй хугацаа нь гэрээнд тусгагдсан огнооноос эхлэн тодорхой сар буюу жилээр үргэлжилнэ. Түрээсэлэгч нь сар бүрийн түрээсийн төлбөрийг хугацаанд нь төлөх бөгөөд нийт гэрээний хугацаанд бүрэн барагдуулах үүрэгтэй.`;
+      return `Гэрээний хүчинтэй хугацаа нь гэрээнд тусгагдсан огнооноос эхлэн тодорхой сар буюу жилээр үргэлжилнэ.  
+Түрээслэгч нь ${contract.rentalPeriod || "____"} сар бүр ${
+        contract.paymentAmount || "____"
+      }₮ төлөх бөгөөд нийт ${
+        contract.paymentAmount && contract.rentalPeriod
+          ? contract.paymentAmount * contract.rentalPeriod
+          : "____"
+      }₮-ийг гэрээний хугацаанд бүрэн барагдуулах үүрэгтэй.`;
     case "rights":
       return `Түрээслүүлэгч нь хөрөнгийг ашиглах боломжтой, эрхийн болон биеэ зөвшөөрсөн нөхцөлтэйгөөр түрээслэгчид хүлээлгэн өгөх үүрэгтэй. Мөн гэрээний үүрэг зөрчигдсөн тохиолдолд хохирлыг нөхөн төлүүлэх эрхтэй.`;
     case "lessee":
