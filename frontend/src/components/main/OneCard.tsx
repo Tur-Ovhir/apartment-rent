@@ -31,6 +31,16 @@ export const OneCard = ({
   const handleApartment = () => {
     router.push(`/apartment/${id}`);
   };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; 
+    const day = date.getDate();
+    return `${year} оны ${month} сарын ${day} өдөр`;
+  };
+
+
   return (
     <Card
       onClick={handleApartment}
@@ -71,7 +81,7 @@ export const OneCard = ({
           <h2 className="text-2xl font-bold mt-2">{price.toLocaleString()}₮</h2>
           <p className="m">{title}</p>
           <p className="text-gray-600 text-xs">{location}</p>
-          <p className="text-gray-600 text-xs">{createdAt}</p>
+          <p className="text-gray-600 text-xs">{formatDate(createdAt)}</p>
           <div className="flex items-center">
             <svg
               width="15"

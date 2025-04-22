@@ -13,7 +13,6 @@ import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
   const [district, setDistrict] = useState("");
   const [rooms, setRooms] = useState("");
@@ -32,6 +31,14 @@ export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
 
     onFilter(filters);
   }, [district, rooms, price, area, search]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 0-based тул 1 нэмнэ
+    const day = date.getDate();
+    return `${year} оны ${month} сарын ${day} өдөр`;
+  };
 
   return (
     <Card className="w-full mx-auto p-6 shadow-lg rounded-2xl border border-gray-200">

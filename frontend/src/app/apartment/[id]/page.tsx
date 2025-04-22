@@ -49,11 +49,11 @@ export default function ApartmentIdPage() {
       <Navbar />
       <div className="space-y-5">
         <div className="w-[900px] m-auto mt-12 flex gap-4 relative">
-          <div className="flex flex-col gap-4 w-1/3">
+          <div className="flex flex-col  justify-between w-1/3">
             {apartment?.images.slice(0, 5).map((img, i) => (
               <div
                 key={i}
-                className={`relative w-full h-24 rounded-md overflow-hidden cursor-pointer border ${
+                className={`relative w-full h-28 rounded-md overflow-hidden cursor-pointer border ${
                   selectedImage === img
                     ? "border-blue-500"
                     : "border-transparent"
