@@ -38,7 +38,7 @@ export default function ApartmentIdPage() {
   }, [id]);
 
   const handleCreateContract = () => {
-    localStorage.setItem("contractRequest", "d");
+    localStorage.setItem("contractRequest", id ? id.toString() : "1");
     toast.info("Гэрээ байгууллах хүсэлт илгээгдлээ");
   };
 

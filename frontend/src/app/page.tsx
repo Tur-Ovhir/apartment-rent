@@ -29,7 +29,10 @@ export default function Home() {
     if (contract && user?.role == "renter") {
       toast.info(
         <div className="flex items-center gap-2">
-          <p>{1} дугаартай байранд түрээслэх хүсэлтийг хянсан байна.</p>
+          <p>
+            {contractRequest} дугаартай байранд түрээслэх хүсэлтийг хянсан
+            байна.
+          </p>
           <Button
             onClick={() => router.push("/CreateContract")}
             className="bg-[#7065F0] cursor-pointer"
