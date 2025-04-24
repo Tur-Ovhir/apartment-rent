@@ -2,7 +2,7 @@
 export const Footer = () => {
   return (
     <div>
-      <div className="w-full h-[290px] border bg-[#2D363C] flex flex-row p-32 justify-between text-[#969A9D]  items-center p-5">
+      <div className="w-full h-[290px] border bg-[#2D363C] flex flex-row p-32 justify-between text-[#969A9D]  items-center p-5 print:hidden">
         <div className="flex flex-col gap-1 ml-20 ">
           <h1 className="text-white text-xl">Бидний тухай</h1>
           <h3>Бидний тухай</h3>

@@ -19,7 +19,7 @@ export const Navbar = () => {
   };
   return (
     <div>
-      <div className="w-full border h-[70px] flex flex-row items-center p-3 justify-between">
+      <div className="w-full border h-[70px] flex flex-row items-center p-3 justify-between print:hidden">
         <div className="flex-1 flex flex-row gap-1">
           <BiWorld className="w-7 h-7" />
           <h1 className="font-bold text-xl text-[#1D175D]">Монгол</h1>
