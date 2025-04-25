@@ -16,7 +16,9 @@ export default function Home() {
     if (contractRequest && user?.role == "owner") {
       toast.info(
         <div className="flex items-center gap-2">
-          <p>{1} дугаартай байранд түрээслэх хүсэлт ирсэн байна.</p>
+          <p>
+            {contractRequest} дугаартай байранд түрээслэх хүсэлт ирсэн байна.
+          </p>
           <Button
             onClick={() => router.push("/contractIncludes")}
             className="bg-[#7065F0] cursor-pointer"

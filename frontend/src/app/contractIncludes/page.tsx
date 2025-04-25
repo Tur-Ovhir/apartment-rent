@@ -39,7 +39,6 @@ export default function ContractIncludes() {
     validationSchema: yup.object({}), // Add rules here if needed
     onSubmit: async (values) => {
       localStorage.setItem("contract", JSON.stringify(values));
-      localStorage.removeItem("contractRequest");
       router.push("/");
     },
   });
