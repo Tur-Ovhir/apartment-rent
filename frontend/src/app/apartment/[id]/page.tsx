@@ -147,7 +147,7 @@ export default function ApartmentIdPage() {
                       </div>
                     </div>
                     <div className="bg-green-200 p-2 rounded-md text-sm text-black mt-4">
-                      Сайн байна уу? Та 0-1234 дугаарт зарын талаар асууж лавлах
+                      Сайн байна уу? Та {id} дугаарт зарын талаар асууж лавлах
                       боломжтой.
                     </div>
                     <Input placeholder="Your message..." className="mt-4" />
