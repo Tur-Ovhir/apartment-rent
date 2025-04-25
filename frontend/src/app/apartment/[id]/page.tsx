@@ -47,8 +47,8 @@ export default function ApartmentIdPage() {
   return (
     <div>
       <Navbar />
-      <div className="space-y-5">
-        <div className="w-[900px] m-auto mt-12 flex gap-4 relative">
+      <div className="space-y-5 ">
+        <div className="w-[900px] m-auto mt-12 flex  gap-4 relative">
           <div className="flex flex-col  justify-between w-1/3">
             {apartment?.images.slice(0, 5).map((img, i) => (
               <div
@@ -86,8 +86,8 @@ export default function ApartmentIdPage() {
           </div>
 
           {user?.role !== "owner" && (
-            <div className="absolute w-60 h-[360px] top-0 -right-[300px] border rounded-lg shadow-lg text-center flex flex-col items-center p-2">
-              <div className="w-32 h-32 rounded-full overflow-hidden relative">
+            <div className="absolute w-60 h-[360px] top-0 right-[-450px] border rounded-lg shadow-lg text-center flex flex-col items-center p-2">
+              <div className="w-32 h-32 rounded-full overflow-hidden relative ">
                 <Image
                   src="https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
                   alt="user"
@@ -96,13 +96,11 @@ export default function ApartmentIdPage() {
                 />
               </div>
               <div>Бат</div>
-              <p className="text-muted-foreground">
-                Үл хөдлөх хөрөнгийн мэргэжилтэн
-              </p>
-              <div className="space-y-1">
+              <p className="text-muted-foreground">Түрээслүүлэгч</p>
+              <div className="space-y-1 mt-2 ">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-40 cursor-pointer bg-green-600">
+                    <Button className="w-40 cursor-pointer text-lg text-black border bg-white border-[#434FAA] hover:bg-[#7065F0] ">
                       Холбогдох
                     </Button>
                   </DialogTrigger>
@@ -122,7 +120,7 @@ export default function ApartmentIdPage() {
                 </Dialog>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-40 cursor-pointer border border-[#434FAA] text-[#434FAA] bg-white">
+                    <Button className="w-40 cursor-pointer  text-black border bg-white border-[#434FAA] hover:bg-[#7065F0]">
                       МЕССЕЖ ИЛГЭЭХ
                     </Button>
                   </DialogTrigger>
@@ -141,9 +139,7 @@ export default function ApartmentIdPage() {
                       </div>
                       <div>
                         <p className="font-semibold">Бат</p>
-                        <p className="text-sm text-gray-500">
-                          Үл хөдлөх хөрөнгийн мэргэжилтэн
-                        </p>
+                        <p className="text-sm text-gray-500">Түрээслүүлэгч</p>
                       </div>
                     </div>
                     <div className="bg-green-200 p-2 rounded-md text-sm text-black mt-4">
@@ -160,7 +156,7 @@ export default function ApartmentIdPage() {
                 </Dialog>
                 <Button
                   onClick={handleCreateContract}
-                  className="w-40 cursor-pointer border border-[#434FAA] text-[#434FAA] bg-white"
+                  className="w-40 cursor-pointer  border  border-black bg-white hover:bg-black hover:text-white text-black"
                 >
                   ГЭРЭЭ БАЙГУУЛАХ
                 </Button>
