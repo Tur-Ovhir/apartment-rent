@@ -46,6 +46,10 @@ export const CrContract = () => {
     toast.success("Гэрээ амжилттай үүслээ");
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="flex flex-col md:flex-row max-w-6xl mx-auto p-6 gap-10">
       <div className="flex-1 space-y-6">
@@ -67,10 +71,10 @@ export const CrContract = () => {
           </Label>
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col print:hidden">
         <div className="border-[1px] h-full"></div>
       </div>
-      <div className="w-full md:w-1/3 space-y-4 flex flex-col justify-between">
+      <div className="w-full md:w-1/3 space-y-4 flex flex-col justify-between print:hidden">
         <div className="flex flex-col gap-2">
           <Button variant="outline" className="hover:bg-[#7065F0]">
             ДАН баталгаажуулалт
@@ -83,7 +87,11 @@ export const CrContract = () => {
           </Button>
         </div>
         <div className="justify-center flex">
-          <Button variant="ghost" className="border hover:bg-[#7065F0]">
+          <Button
+            onClick={handlePrint}
+            variant="ghost"
+            className="border hover:bg-[#7065F0]"
+          >
             📄 PDF татах
           </Button>
         </div>
