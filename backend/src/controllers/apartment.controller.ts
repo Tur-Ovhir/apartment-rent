@@ -139,6 +139,7 @@ export const getApartments: RequestHandler = async (req, res) => {
       interiorCategory,
       otherCategory,
       search,
+      location,
       page = 1,
       limit = 10,
     } = req.query;
@@ -153,6 +154,7 @@ export const getApartments: RequestHandler = async (req, res) => {
       maxRooms ? lte(apartments.rooms, Number(maxRooms)) : undefined,
       minArea ? gte(apartments.area, Number(minArea)) : undefined,
       maxArea ? lte(apartments.area, Number(maxArea)) : undefined,
+      location ? like(apartments.location, `${location}%`) : undefined,
       isHighlight !== undefined
         ? eq(apartments.isHighlight, isHighlight === "true")
         : undefined,

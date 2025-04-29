@@ -48,15 +48,15 @@ export const Option = ({ onFilter }: { onFilter: (filters: any) => void }) => {
             <SelectValue placeholder="Дүүрэг" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="baganuur">Багануур</SelectItem>
-            <SelectItem value="bagakhangai">Багахангай</SelectItem>
-            <SelectItem value="bayangol">Баянгол</SelectItem>
-            <SelectItem value="bayanzurkh">Баянзүрх</SelectItem>
-            <SelectItem value="nalaikh">Налайх</SelectItem>
-            <SelectItem value="songinohairkhan">Сонгинохайрхан</SelectItem>
-            <SelectItem value="sukhbaatar">Сүхбаатар</SelectItem>
-            <SelectItem value="khan-uul">Хан-Уул</SelectItem>
-            <SelectItem value="chingeltei">Чингэлтэй</SelectItem>
+            <SelectItem value="Багануур">Багануур</SelectItem>
+            <SelectItem value="Багахангай">Багахангай</SelectItem>
+            <SelectItem value="Баянгол">Баянгол</SelectItem>
+            <SelectItem value="Баянзүрх">Баянзүрх</SelectItem>
+            <SelectItem value="Налайх">Налайх</SelectItem>
+            <SelectItem value="Сонгинохайрхан">Сонгинохайрхан</SelectItem>
+            <SelectItem value="Сүхбаатар">Сүхбаатар</SelectItem>
+            <SelectItem value="Хан-Уул">Хан-Уул</SelectItem>
+            <SelectItem value="Чингэлтэй">Чингэлтэй</SelectItem>
           </SelectContent>
         </Select>
 
