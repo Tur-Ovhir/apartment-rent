@@ -86,7 +86,7 @@ export default function ApartmentIdPage() {
           </div>
 
           {user?.role !== "owner" && (
-            <div className="absolute w-60 h-[360px] top-0 right-[-450px] border rounded-lg shadow-lg text-center flex flex-col items-center p-2">
+            <div className="absolute w-60 h-[360px] top-0 right-[-300px] border rounded-lg shadow-lg text-center flex flex-col items-center p-2">
               <div className="w-32 h-32 rounded-full overflow-hidden relative ">
                 <Image
                   src="https://res.cloudinary.com/dqhguhv7o/image/upload/v1745217706/images_uuqsax.png"
