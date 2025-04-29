@@ -1,7 +1,6 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
@@ -14,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useFormik } from "formik";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface ContractFormValues {
   rentalPeriod: number;
@@ -21,7 +21,7 @@ interface ContractFormValues {
   paymentAmount: number;
   deposit: number;
   utilityIncluded: string;
-  additional: string;
+  others: string[];
 }
 
 export default function ContractIncludes() {
@@ -34,15 +34,49 @@ export default function ContractIncludes() {
       paymentAmount: 0,
       deposit: 0,
       utilityIncluded: "",
-      additional: "",
+      others: [],
     },
     validationSchema: yup.object({}), // Add rules here if needed
     onSubmit: async (values) => {
       localStorage.setItem("contract", JSON.stringify(values));
+      localStorage.removeItem("contractRequest");
       router.push("/");
     },
   });
 
+  const handleCheckboxChange = (item: string, isChecked: boolean) => {
+    const currentOthers = [...contractForm.values.others];
+
+    if (isChecked && !currentOthers.includes(item)) {
+      contractForm.setFieldValue("others", [...currentOthers, item]);
+    } else if (!isChecked && currentOthers.includes(item)) {
+      contractForm.setFieldValue(
+        "others",
+        currentOthers.filter((value) => value !== item)
+      );
+    }
+  };
+
+  const renderCheckbox = (items: string[]) => (
+    <div className="space-y-2">
+      {items.map((feature) => (
+        <div key={feature} className="flex items-center gap-1.5">
+          <Checkbox
+            id={feature}
+            className="cursor-pointer"
+            checked={contractForm.values.others.includes(feature)}
+            onCheckedChange={(checked) =>
+              handleCheckboxChange(feature, checked === true)
+            }
+          />
+
+          <Label htmlFor={feature} className="text-sm cursor-pointer">
+            {feature}
+          </Label>
+        </div>
+      ))}
+    </div>
+  );
   return (
     <form
       onSubmit={contractForm.handleSubmit}
@@ -115,14 +149,29 @@ export default function ContractIncludes() {
               </Select>
             </div>
 
-            <div className="space-y-1">
-              <Label>Нэмэлт</Label>
-              <Textarea
-                name="additional"
-                value={contractForm.values.additional}
-                onChange={contractForm.handleChange}
-                rows={4}
-              />
+            <div className="items-start flex">
+              <div className="w-64">
+                <Label>Засвар үйлчилгээний үүрэг:</Label>
+              </div>
+              {renderCheckbox(maintenances)}
+            </div>
+            <div className="items-start flex">
+              <div className="w-64">
+                <Label>Гэрээ цуцлах нөхцөл:</Label>
+              </div>
+              {renderCheckbox(conditionsContract)}
+            </div>
+            <div className="items-start flex">
+              <div className="w-64">
+                <Label>Гэрээг сунгах боломж:</Label>
+              </div>
+              {renderCheckbox(renewContract)}
+            </div>
+            <div className="items-start flex">
+              <div className="w-64">
+                <Label>Хориотой үйлдэл:</Label>
+              </div>
+              {renderCheckbox(forbiddenAct)}
             </div>
 
             <Button
@@ -137,3 +186,23 @@ export default function ContractIncludes() {
     </form>
   );
 }
+const maintenances = [
+  "Түрээслэгч урсгал засварыг хариуцна",
+  "Түрээслүүлэгч бүх төрлийн засварыг хариуцна",
+  "Томоохон гэмтлийн засварыг түрээслүүлэгч хариуцна",
+];
+const conditionsContract = [
+  "Гэрээг урьдчилан 30 хоногийн мэдэгдлээр цуцлах боломжтой",
+  "Гэрээг зөвхөн хугацаа дуусмагц цуцална",
+  "Цуцлах тохиолдолд торгууль төлөх нөхцөлтэй",
+];
+const renewContract = [
+  "Түрээсийн хугацаа дуусмагц гэрээг сунгах боломжтой",
+  "Гэрээг зөвхөн шинэ гэрээ байгуулж сунгана",
+  "Автомат сунгалт хийх нөхцөлтэй",
+];
+const forbiddenAct = [
+  "Гэрт тэжээвэр амьтан оруулахыг хориглоно",
+  "Өөр этгээдэд түрээслэхийг хориглоно",
+  "Бизнесийн зориулалтаар ашиглахыг хориглоно",
+];
