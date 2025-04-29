@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Card, CardContent } from "../ui/card";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CiHeart } from "react-icons/ci";
 interface OneCardProps {
   id: number;
   image: string;
@@ -28,6 +27,7 @@ export const OneCard = ({
   createdAt,
 }: OneCardProps) => {
   const router = useRouter();
+  const [like, setLike] = useState(false);
 
   const handleApartment = () => {
     router.push(`/apartment/${id}`);
@@ -40,13 +40,9 @@ export const OneCard = ({
     const day = date.getDate();
     return `${year} оны ${month} сарын ${day} өдөр`;
   };
-  const [liked, setLiked] = useState(false);
 
   return (
-    <Card
-      onClick={handleApartment}
-      className="w-full p-[10px] shadow-xl rounded-2xl border border-gray-200"
-    >
+    <Card className="w-full p-[10px] shadow-xl rounded-2xl border border-gray-200">
       <CardContent className="p-0">
         <div className="relative h-40 w-full">
           <Image
@@ -54,21 +50,35 @@ export const OneCard = ({
               image ||
               "https://res.cloudinary.com/dykm0aphm/image/upload/v1744444071/Screenshot_2025-04-12_at_15.47.34_irlwad.png"
             }
+            onClick={handleApartment}
             alt="Phone with map"
             fill
             className="rounded-lg object-cover"
           />
         </div>
         <div className="relative space-y-2">
-          {isHighlight && (
-            <div
-              onClick={() => setLiked(!liked)}
-              className={`absolute top-2 right-2 w-[30px] h-[30px] border-2 border-[#E8E6F9] flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 bg-white 
-          `}
+          <div
+            onClick={() => setLike(!like)}
+            className={`absolute z-10 top-2 right-2 w-[30px] h-[30px] border-2 border-[#E8E6F9] flex items-center justify-center rounded-full cursor-pointer hover:bg-[#7115f342] ${
+              like ? "bg-[#7015F3]" : "bg-white"
+            }`}
+          >
+            <svg
+              width="14"
+              height="13"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <CiHeart className="hover:bg-[#7065F0] rounded-xl" size={18} />
-            </div>
-          )}
+              <path
+                d="M2.19874 2.44877C1.93758 2.70994 1.7304 3.01999 1.58906 3.36122C1.44772 3.70245 1.37497 4.06818 1.37497 4.43752C1.37497 4.80687 1.44772 5.1726 1.58906 5.51383C1.7304 5.85506 1.93758 6.16511 2.19874 6.42627L6.99999 11.2275L11.8012 6.42627C12.3287 5.89883 12.625 5.18345 12.625 4.43752C12.625 3.6916 12.3287 2.97622 11.8012 2.44877C11.2738 1.92133 10.5584 1.62501 9.81249 1.62501C9.06657 1.62501 8.35119 1.92133 7.82374 2.44877L6.99999 3.27252L6.17624 2.44877C5.91508 2.18761 5.60503 1.98044 5.2638 1.83909C4.92257 1.69775 4.55684 1.625 4.18749 1.625C3.81815 1.625 3.45242 1.69775 3.11119 1.83909C2.76996 1.98044 2.45991 2.18761 2.19874 2.44877V2.44877Z"
+                stroke={like ? "#FFFFFF" : "#7015F3"}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
           <h2 className="text-2xl font-bold mt-2">{price.toLocaleString()}₮</h2>
           <p className="m">{title}</p>
           <p className="text-gray-600 text-xs">{location}</p>
