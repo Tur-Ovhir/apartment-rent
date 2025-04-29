@@ -100,7 +100,7 @@ export default function ApartmentIdPage() {
               <div className="space-y-1 mt-2 ">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-40 cursor-pointer text-lg text-black border bg-white border-[#434FAA] hover:bg-[#7065F0] ">
+                    <Button className="w-40 cursor-pointer text-lg text-black border border-[#434FAA] bg-[#7065F0] ">
                       Холбогдох
                     </Button>
                   </DialogTrigger>
@@ -120,7 +120,7 @@ export default function ApartmentIdPage() {
                 </Dialog>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button className="w-40 cursor-pointer  text-black border bg-white border-[#434FAA] hover:bg-[#7065F0]">
+                    <Button className="w-40 cursor-pointer  text-black border  border-[#434FAA] bg-[#7065F0]">
                       МЕССЕЖ ИЛГЭЭХ
                     </Button>
                   </DialogTrigger>
@@ -156,7 +156,7 @@ export default function ApartmentIdPage() {
                 </Dialog>
                 <Button
                   onClick={handleCreateContract}
-                  className="w-40 cursor-pointer  border  border-black bg-white hover:bg-black hover:text-white text-black"
+                  className="w-40 cursor-pointer  border  border-black hover:bg-black  text-white"
                 >
                   ГЭРЭЭ БАЙГУУЛАХ
                 </Button>
