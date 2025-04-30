@@ -39,6 +39,7 @@ export const CrContract = () => {
       id: "validity",
       title: "8. Гэрээ хүчин төгөлдөр болох ба өөрчлөлт оруулах",
     },
+
     { id: "others", title: "9. Бусад" },
   ];
 
@@ -142,7 +143,8 @@ function getContentById(
       return `Гэрээ нь талууд гарын үсэг зурсан өдрөөс хүчин төгөлдөр үйлчилнэ.  
 Нэмэлт, өөрчлөлтийг зөвхөн бичгээр, талуудын гарын үсгээр баталгаажуулж хийнэ.`;
     case "others":
-      return `${contract.others.join(", ")}`;
+      return contract.others.map((item, index) => `${index + 1}. ${item}`).join("\n");
+      // return `${contract.others.join(", ")}`;
     default:
       return "";
   }

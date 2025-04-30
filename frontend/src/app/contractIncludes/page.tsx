@@ -5,13 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useFormik } from "formik";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -36,7 +29,7 @@ export default function ContractIncludes() {
       utilityIncluded: "",
       others: [],
     },
-    validationSchema: yup.object({}), // Add rules here if needed
+    validationSchema: yup.object({}), 
     onSubmit: async (values) => {
       localStorage.setItem("contract", JSON.stringify(values));
       localStorage.removeItem("contractRequest");
@@ -91,7 +84,7 @@ export default function ContractIncludes() {
           <div className="space-y-4">
             <div className="flex gap-4">
               <div className="w-full space-y-1">
-                <Label>Түрээслэх хугацаа</Label>
+                <Label>Түрээслэх хугацаа (сар)</Label>
                 <Input
                   name="rentalPeriod"
                   value={contractForm.values.rentalPeriod}
@@ -129,24 +122,11 @@ export default function ContractIncludes() {
               </div>
             </div>
 
-            <div className="space-y-1">
-              <Label>Ашиглалтын зардал байгаа эсэх (байрны төлбөр)</Label>
-              <Select
-                onValueChange={(value) =>
-                  contractForm.setFieldValue("utilityIncluded", value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder="Сонгох"
-                    defaultValue={contractForm.values.utilityIncluded}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="yes">Тийм</SelectItem>
-                  <SelectItem value="no">Үгүй</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="items-start flex ">
+              <div className="w-64">
+                <Label>Ашиглалтын зардлыг хэн төлөх:</Label>
+              </div>
+              {renderCheckbox(expense)}
             </div>
 
             <div className="items-start flex">
@@ -173,19 +153,25 @@ export default function ContractIncludes() {
               </div>
               {renderCheckbox(forbiddenAct)}
             </div>
-
-            <Button
-              type="submit"
-              className="bg-[#7065F0] cursor-pointer text-white mt-4"
-            >
-              Гэрээнд оруулах
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="bg-[#7065F0] cursor-pointer text-white mt-4"
+              >
+                Гэрээнд оруулах
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
     </form>
   );
 }
+const expense = [
+  "Түрээслэгч ашиглалтын зардлыг бүрэн хариуцна",
+  "Түрээслүүлэгч ашиглалтын зардлыг бүрэн хариуцна",
+  "Ашиглалтын зардлыг талууд 50:50 харьцаагаар төлнө",
+];
 const maintenances = [
   "Түрээслэгч урсгал засварыг хариуцна",
   "Түрээслүүлэгч бүх төрлийн засварыг хариуцна",
