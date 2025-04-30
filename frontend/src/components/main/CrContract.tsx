@@ -39,12 +39,11 @@ export const CrContract = () => {
       id: "validity",
       title: "8. Гэрээ хүчин төгөлдөр болох ба өөрчлөлт оруулах",
     },
-
-    { id: "others", title: "9. Бусад" },
   ];
 
   const handleRenterContract = () => {
     localStorage.removeItem("contract");
+    localStorage.removeItem("contractId");
     router.push("/");
     toast.success("Гэрээ амжилттай үүслээ");
   };
@@ -66,7 +65,14 @@ export const CrContract = () => {
             </p>
           </div>
         ))}
-
+        <div className="scroll-mt-24">
+          <h2 className="text-lg font-bold mb-1">9. Бусад</h2>
+          <ul className="list-disc pl-5 text-sm text-gray-700 leading-relaxed font-light">
+            {contract?.others.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
         <div className="mt-6">
           <Label className="flex items-center space-x-2 text-sm">
             <Checkbox className="h-5 w-5 border border-black cursor-pointer" />
@@ -108,7 +114,6 @@ function getContentById(
   contract: ContractFormValues | null
 ): string {
   if (!contract) return "";
- 
 
   switch (id) {
     case "goal":
@@ -143,8 +148,6 @@ function getContentById(
     case "validity":
       return `Гэрээ нь талууд гарын үсэг зурсан өдрөөс хүчин төгөлдөр үйлчилнэ.  
 Нэмэлт, өөрчлөлтийг зөвхөн бичгээр, талуудын гарын үсгээр баталгаажуулж хийнэ.`;
-    case "others":
-      return `${contract.others.join(", ")}`;
     default:
       return "";
   }
