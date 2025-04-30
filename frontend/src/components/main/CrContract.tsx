@@ -107,8 +107,8 @@ function getContentById(
   id: string,
   contract: ContractFormValues | null
 ): string {
-  // if (!contract) return "";
-  if (!contract?.others || !Array.isArray(contract.others)) return "";
+  if (!contract) return "";
+ 
 
   switch (id) {
     case "goal":
@@ -144,19 +144,7 @@ function getContentById(
       return `Гэрээ нь талууд гарын үсэг зурсан өдрөөс хүчин төгөлдөр үйлчилнэ.  
 Нэмэлт, өөрчлөлтийг зөвхөн бичгээр, талуудын гарын үсгээр баталгаажуулж хийнэ.`;
     case "others":
-      return (
-        <div>
-          {contract.others.map((item, index) => (
-            <p
-              key={index}
-              className="text-sm text-gray-700 leading-relaxed font-light"
-            >
-              {index + 1}.{item}
-            </p>
-          ))}
-        </div>
-      );
-    // return `${contract.others.join(", ")}`;
+      return `${contract.others.join(", ")}`;
     default:
       return "";
   }
