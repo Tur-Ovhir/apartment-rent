@@ -13,12 +13,11 @@ export default function Home() {
   useEffect(() => {
     const contract = localStorage.getItem("contract");
     const contractRequest = localStorage.getItem("contractRequest");
-    if (contractRequest && user?.role == "owner") {
+    const contractId = localStorage.getItem("contractId");
+    if (contractRequest && contractId && user?.role == "owner") {
       toast.info(
         <div className="flex items-center gap-2">
-          <p>
-            {contractRequest} дугаартай байранд түрээслэх хүсэлт ирсэн байна.
-          </p>
+          <p>{contractId} дугаартай байранд түрээслэх хүсэлт ирсэн байна.</p>
           <Button
             onClick={() => router.push("/contractIncludes")}
             className="bg-[#7065F0] cursor-pointer"
@@ -28,12 +27,11 @@ export default function Home() {
         </div>
       );
     }
-    if (contract && user?.role == "renter") {
+    if (contract && contractId && user?.role == "renter") {
       toast.info(
         <div className="flex items-center gap-2">
           <p>
-            {contractRequest} дугаартай байранд түрээслэх хүсэлтийг хянсан
-            байна.
+            {contractId} дугаартай байранд түрээслэх хүсэлтийг хянсан байна.
           </p>
           <Button
             onClick={() => router.push("/CreateContract")}
