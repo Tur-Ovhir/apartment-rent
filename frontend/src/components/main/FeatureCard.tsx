@@ -9,10 +9,13 @@ interface FeatureCardProps {
   apartments: ApartmentType[];
 }
 export const FeatureCard = ({ apartments }: FeatureCardProps) => {
+  const isHighlight = localStorage.getItem("isHighlight");
   return (
     <div className="flex flex-col mt-6 gap-5 w-full">
       <div className="flex flex-row gap-4 w-full">
-        <h1 className="font-bold text-2xl">Сүүлд нэмэгдсэн</h1>
+        <h1 className="font-bold text-2xl">
+          {isHighlight == "1" ? "Онцлох байр" : "Сүүлд нэмэгдсэн байр"}
+        </h1>
         <Button className="bg-white border text-black hover:text-red-500  cursor-pointer">
           Ухаалаг эрэмбэ <HiArrowsUpDown className="0" />
         </Button>

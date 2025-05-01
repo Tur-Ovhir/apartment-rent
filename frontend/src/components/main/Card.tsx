@@ -32,6 +32,7 @@ export const Card = ({ isHighlight }: { isHighlight: boolean }) => {
 
   const handleAll = () => {
     router.push("/apartment");
+    localStorage.setItem("isHighlight", isHighlight ? "1" : "0");
   };
 
   return (
