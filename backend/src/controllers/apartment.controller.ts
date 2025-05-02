@@ -141,7 +141,7 @@ export const getApartments: RequestHandler = async (req, res) => {
       search,
       location,
       page = 1,
-      limit = 10,
+      limit = 100,
     } = req.query;
 
     const offset = (Number(page) - 1) * Number(limit);
